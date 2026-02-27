@@ -51,7 +51,7 @@ def main():
     while current_year <= end_year:
         start_date = f"01-Jan-{current_year}"
         if current_year == 2005:
-            start_date = "30-Jun-2005"
+            start_date = "01-Apr-2005"
         
         end_date = f"31-Dec-{current_year}"
         if current_year == 2026:

@@ -6,9 +6,9 @@ import time
 # ── Configuration ─────────────────────────────────────────────────────────────
 
 INDEX_NAME = "Nifty500 Momentum 50"
-START_DATE = "30-Jun-2005"
+START_DATE = "01-Apr-2005"
 END_DATE   = datetime.now().strftime("%d-%b-%Y")
-OUTPUT_CSV = "Nifty500_Momentum50_20050630_20250630.csv"
+OUTPUT_CSV = "Nifty500_Momentum50_Full_History.csv"
 
 def main():
     print(f"Fetching historical data for {INDEX_NAME} from {START_DATE} to {END_DATE}...")

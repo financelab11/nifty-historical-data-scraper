@@ -57,4 +57,4 @@ def upload_to_supabase(csv_file):
     print("Upload complete!")
 
 if __name__ == "__main__":
-    upload_to_supabase("Nifty500_Momentum50_20050630_20250630.csv")
+    upload_to_supabase("Nifty500_Momentum50_Full_History.csv")

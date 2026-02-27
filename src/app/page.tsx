@@ -89,7 +89,7 @@ export default function Home() {
               Nifty500 Momentum 50
             </h1>
             <p className="text-zinc-500 dark:text-zinc-400">
-              Complete Historical Performance (Since June 2005)
+              Complete Historical Performance (Since April 2005)
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -229,9 +229,9 @@ export default function Home() {
                   </tbody>
                 </table>
               </div>
-              <div className="p-4 bg-zinc-50 dark:bg-zinc-900/50 text-center border-t border-zinc-200 dark:border-zinc-800 shrink-0">
-                <p className="text-xs text-zinc-500">End of records (Historical data starts from June 30, 2005)</p>
-              </div>
+                <div className="p-4 bg-zinc-50 dark:bg-zinc-900/50 text-center border-t border-zinc-200 dark:border-zinc-800 shrink-0">
+                  <p className="text-xs text-zinc-500">End of records (Historical data starts from April 1, 2005)</p>
+                </div>
             </div>
           </div>
         )}
