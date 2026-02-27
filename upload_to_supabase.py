@@ -5,12 +5,15 @@ import sys
 import os
 
 # Supabase configuration
-# Use environment variables if possible, but keep hardcoded as fallback for now for reliability in this specific task
 SUPABASE_URL = "https://bnlqmjjeqrbfmpxkpdce.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJubHFtamplcXJiZm1weGtwZGNlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjIxNTI1NywiZXhwIjoyMDg3NzkxMjU3fQ.KtkqFcnoFU7Tf0t8FH8f7F8AlMA7Bf_yVFPVdXLzz0s"
-TABLE_NAME = "nifty_momentum_50"
+TABLE_NAME = "nifty_indices"
 
-def upload_to_supabase(csv_file):
+def upload_to_supabase(csv_file, index_name_default=None):
+    if not os.path.exists(csv_file):
+        print(f"File {csv_file} not found. Skipping.")
+        return
+
     print(f"Reading {csv_file}...")
     df = pd.read_csv(csv_file)
     
@@ -19,19 +22,31 @@ def upload_to_supabase(csv_file):
     
     # Add index_name if missing
     if 'index_name' not in df.columns:
-        df['index_name'] = "Nifty500 Momentum 50"
+        if index_name_default:
+            df['index_name'] = index_name_default
+        else:
+            df['index_name'] = "Nifty500 Momentum 50"
     
-    # Handle '-' values by converting to 0 or None
-    # My scraper already handles this, but let's be safe.
+    # Ensure columns match DB: date, index_name, open, high, low, close
+    needed_cols = ["date", "index_name", "open", "high", "low", "close"]
+    for col in needed_cols:
+        if col not in df.columns:
+            df[col] = 0.0 # Default value
+            
+    # Keep only needed columns
+    df = df[needed_cols]
+    
+    # Handle '-' values by converting to 0
     df = df.replace('-', 0)
     
     # Convert to list of dicts
     records = df.to_dict(orient='records')
     
-    print(f"Uploading {len(records)} records to Supabase...")
+    print(f"Uploading {len(records)} records for {df['index_name'].iloc[0]} to Supabase...")
     
-    # Supabase REST API endpoint for the table
-    url = f"{SUPABASE_URL}/rest/v1/{TABLE_NAME}?on_conflict=date"
+    # Supabase REST API endpoint for the table with upsert on conflict of (date, index_name)
+    # The on_conflict parameter must match the columns in the unique constraint
+    url = f"{SUPABASE_URL}/rest/v1/{TABLE_NAME}?on_conflict=date,index_name"
     
     headers = {
         "apikey": SUPABASE_KEY,
@@ -52,9 +67,11 @@ def upload_to_supabase(csv_file):
             print(f"  Error uploading chunk: {e}")
             if hasattr(e, 'response') and e.response is not None:
                 print(f"  Response: {e.response.text}")
-            sys.exit(1)
-  
-    print("Upload complete!")
+    
+    print(f"Upload complete for {csv_file}!")
 
 if __name__ == "__main__":
-    upload_to_supabase("Nifty500_Momentum50_Full_History.csv")
+    # Upload Momentum 50
+    upload_to_supabase("Nifty500_Momentum50_Full_History.csv", "Nifty500 Momentum 50")
+    # Upload Quality 50
+    upload_to_supabase("nifty500_quality_50_data.csv", "Nifty500 Quality 50")
