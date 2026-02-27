@@ -28,36 +28,41 @@ export default function Home() {
     useEffect(() => {
     async function fetchData() {
       setLoading(true)
-      let allRecords: IndexData[] = []
-      let from = 0
-      let to = 999
+      let offset = 0
+      const limit = 1000
       let hasMore = true
+      let allFetched: IndexData[] = []
+
+      console.log("Starting data fetch...")
 
       while (hasMore) {
         const { data: records, error } = await supabase
           .from("nifty_momentum_50")
           .select("*")
           .order("date", { ascending: false })
-          .range(from, to)
+          .range(offset, offset + limit - 1)
 
         if (error) {
           console.error("Error fetching data:", error)
           hasMore = false
         } else if (records && records.length > 0) {
-          allRecords = [...allRecords, ...records]
-          if (records.length < 1000) {
+          console.log(`Fetched ${records.length} records, offset ${offset}`)
+          allFetched = [...allFetched, ...records]
+          // Update state incrementally so the user sees something
+          setData([...allFetched])
+          
+          if (records.length < limit) {
             hasMore = false
           } else {
-            from += 1000
-            to += 1000
+            offset += limit
           }
         } else {
           hasMore = false
         }
       }
 
-      setData(allRecords)
       setLoading(false)
+      console.log(`Fetch complete. Total: ${allFetched.length} records.`)
     }
 
     fetchData()
