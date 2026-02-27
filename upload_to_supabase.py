@@ -79,7 +79,8 @@ if __name__ == "__main__":
     indices = [
         ("nifty500_momentum_50_data.csv", "Nifty500 Momentum 50"),
         ("nifty500_quality_50_data.csv", "Nifty500 Quality 50"),
-        ("nifty500_value_50_data.csv", "Nifty500 Value 50")
+        ("nifty500_value_50_data.csv", "Nifty500 Value 50"),
+        ("nifty500_low_volatility_50_data.csv", "Nifty500 Low Volatility 50")
     ]
     
     for filename, index_name in indices:

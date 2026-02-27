@@ -24,7 +24,8 @@ interface IndexData {
 const AVAILABLE_INDICES = [
   "Nifty500 Momentum 50",
   "Nifty500 Quality 50",
-  "Nifty500 Value 50"
+  "Nifty500 Value 50",
+  "Nifty500 Low Volatility 50"
 ]
 
 export default function Home() {
@@ -37,7 +38,6 @@ export default function Home() {
   useEffect(() => {
     async function fetchData() {
       setLoading(true)
-      setAllData([])
       setProgress(0)
       let offset = 0
       const limit = 1000
@@ -71,7 +71,11 @@ export default function Home() {
             hasMore = false
           }
         }
-        setAllData(fetchedResults)
+        
+        // Only set data once complete to avoid intermediate jitters
+        if (fetchedResults.length > 0) {
+          setAllData(fetchedResults)
+        }
       } catch (err) {
         console.error("Fetch failed:", err)
       } finally {
