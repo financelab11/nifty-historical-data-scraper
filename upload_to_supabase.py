@@ -71,7 +71,19 @@ def upload_to_supabase(csv_file, index_name_default=None):
     print(f"Upload complete for {csv_file}!")
 
 if __name__ == "__main__":
-    # Upload Momentum 50
-    upload_to_supabase("Nifty500_Momentum50_Full_History.csv", "Nifty500 Momentum 50")
-    # Upload Quality 50
-    upload_to_supabase("nifty500_quality_50_data.csv", "Nifty500 Quality 50")
+    # Standardize files created by fetch_all_indices.py
+    # nifty500_momentum_50_data.csv
+    # nifty500_quality_50_data.csv
+    # nifty500_value_50_data.csv
+    
+    indices = [
+        ("nifty500_momentum_50_data.csv", "Nifty500 Momentum 50"),
+        ("nifty500_quality_50_data.csv", "Nifty500 Quality 50"),
+        ("nifty500_value_50_data.csv", "Nifty500 Value 50")
+    ]
+    
+    for filename, index_name in indices:
+        if os.path.exists(filename):
+            upload_to_supabase(filename, index_name)
+        else:
+            print(f"File {filename} not found.")

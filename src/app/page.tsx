@@ -23,12 +23,14 @@ interface IndexData {
 
 const AVAILABLE_INDICES = [
   "Nifty500 Momentum 50",
-  "Nifty500 Quality 50"
+  "Nifty500 Quality 50",
+  "Nifty500 Value 50"
 ]
 
 export default function Home() {
   const [allData, setAllData] = useState<IndexData[]>([])
   const [loading, setLoading] = useState(true)
+  const [progress, setProgress] = useState(0)
   const [selectedIndex, setSelectedIndex] = useState(AVAILABLE_INDICES[0])
   const [tableLimit, setTableLimit] = useState(100)
 
@@ -36,6 +38,7 @@ export default function Home() {
     async function fetchData() {
       setLoading(true)
       setAllData([])
+      setProgress(0)
       let offset = 0
       const limit = 1000
       let hasMore = true
@@ -57,14 +60,12 @@ export default function Home() {
             hasMore = false
           } else if (records && records.length > 0) {
             fetchedResults = [...fetchedResults, ...records]
+            setProgress(fetchedResults.length)
+            
             if (records.length < limit) {
               hasMore = false
             } else {
               offset += limit
-            }
-            // Intermediate update for large datasets so user sees progress
-            if (fetchedResults.length % 2000 === 0) {
-               setAllData([...fetchedResults])
             }
           } else {
             hasMore = false
@@ -182,7 +183,7 @@ export default function Home() {
             </div>
             <div className="text-center">
               <p className="text-lg font-bold">Crunching 20 years of data...</p>
-              <p className="text-zinc-500 text-sm mt-1">Fetching records from Supabase cloud</p>
+              <p className="text-zinc-500 text-sm mt-1">Fetched {progress.toLocaleString()} records from Supabase cloud</p>
             </div>
           </div>
         ) : (

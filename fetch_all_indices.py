@@ -6,7 +6,7 @@ import os
 
 # ── Configuration ─────────────────────────────────────────────────────────────
 
-SYMBOLS = ["Nifty500 Momentum 50", "Nifty500 Quality 50"]
+SYMBOLS = ["Nifty500 Momentum 50", "Nifty500 Quality 50", "Nifty500 Value 50"]
 START_DATE = "01-Apr-2005"
 END_DATE   = "27-Feb-2026"
 
