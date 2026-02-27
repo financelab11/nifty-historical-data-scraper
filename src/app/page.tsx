@@ -70,7 +70,7 @@ export default function Home() {
     }
     
     let offset = 0
-    const limit = 2000 // Increased limit per fetch for faster loading
+    const limit = 1000 // Supabase default limit is 1000
     let hasMore = true
     let fetchedResults: IndexData[] = []
 
@@ -114,18 +114,20 @@ export default function Home() {
   useEffect(() => {
     // Primary fetch for selected index
     fetchData(selectedIndex)
-    
+  }, [selectedIndex, fetchData])
+
+  useEffect(() => {
     // Background prefetch for other indices after a short delay
     const timer = setTimeout(() => {
       AVAILABLE_INDICES.forEach(idx => {
-        if (idx !== selectedIndex && !indexCache[idx]) {
+        if (!cacheRef.current[idx]) {
           fetchData(idx, true)
         }
       })
-    }, 2000)
+    }, 3000)
 
     return () => clearTimeout(timer)
-  }, [selectedIndex, fetchData, indexCache])
+  }, [fetchData])
 
   // Performance optimization: sample chart data for smooth mobile rendering
   const chartData = useMemo(() => {
@@ -150,7 +152,7 @@ export default function Home() {
 
   // Pre-calculate stats only when data changes
   const stats = useMemo(() => {
-    if (allData.length === 0) return { latest: 0, high: 0, base: 1000, latestDate: '', count: 0 }
+    if (allData.length === 0) return { latest: 0, high: 0, base: 1000, latestDate: '', count: 0, cagr: 0 }
     
     let maxHigh = 0
     for (const d of allData) {
@@ -158,12 +160,26 @@ export default function Home() {
         if (h > maxHigh) maxHigh = h
     }
 
+    const latest = allData[0].close
+    const base = allData[allData.length - 1].close || 1000
+    
+    // CAGR calculation (Annualized)
+    // allData is descending (latest first)
+    const startDate = new Date(allData[allData.length - 1].date)
+    const endDate = new Date(allData[0].date)
+    const diffInMs = endDate.getTime() - startDate.getTime()
+    const years = diffInMs / (1000 * 60 * 60 * 24 * 365.25)
+    
+    // Avoid division by zero and handle initial growth correctly
+    const cagr = years > 0.1 ? (Math.pow(latest / base, 1 / years) - 1) : 0
+
     return {
-      latest: allData[0].close,
+      latest,
       latestDate: allData[0].date,
       high: maxHigh,
-      base: allData[allData.length - 1].close || 1000,
-      count: allData.length
+      base,
+      count: allData.length,
+      cagr
     }
   }, [allData])
 
@@ -303,9 +319,9 @@ export default function Home() {
                 whileHover={{ y: -4 }}
                 className="bg-zinc-900 dark:bg-white p-6 md:p-8 rounded-3xl border border-zinc-800 dark:border-zinc-100 shadow-xl relative overflow-hidden"
               >
-                <p className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase font-black tracking-[0.2em] mb-3">Compounded Return</p>
+                <p className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase font-black tracking-[0.2em] mb-3">Annualized Returns (CAGR)</p>
                 <p className="text-4xl md:text-5xl font-black text-white dark:text-zinc-900 tabular-nums tracking-tighter mb-4">
-                  {((stats.latest / stats.base) * 100 - 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}%
+                  {(stats.cagr * 100).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
                 </p>
                 <p className="text-xs font-bold text-zinc-400 dark:text-zinc-500 flex items-center gap-2">
                   <Info className="w-4 h-4" />
