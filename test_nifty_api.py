@@ -20,9 +20,9 @@ def test_fetch():
     
     # 2. Try fetching Nifty 50 for a short period
     inner_params = {
-        "name": "Nifty 50",
-        "startDate": "01-Jan-2024",
-        "endDate": "31-Jan-2024"
+        "name": "NIFTY 50",
+        "startDate": "01-01-2024",
+        "endDate": "31-01-2024"
     }
     payload = {"cinfo": json.dumps(inner_params)}
     
