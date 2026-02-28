@@ -46,7 +46,8 @@ const AVAILABLE_INDICES = [
   "Nifty500 Momentum 50",
   "Nifty500 Quality 50",
   "Nifty500 Value 50",
-  "Nifty500 Low Volatility 50"
+  "Nifty500 Low Volatility 50",
+  "S&P 500 Index"
 ]
 
 export default function Home() {
