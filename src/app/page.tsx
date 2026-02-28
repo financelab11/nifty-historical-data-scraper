@@ -394,7 +394,10 @@ export default function Home() {
                       }}
                       itemStyle={{ color: '#10b981', fontWeight: '800' }}
                       labelStyle={{ color: '#a1a1aa', marginBottom: '8px', fontSize: '10px', fontWeight: '900', textTransform: 'uppercase' }}
-                      formatter={(value: number) => [`₹${value.toLocaleString(undefined, { minimumFractionDigits: 2 })}`, 'Index Value']}
+                      formatter={(value: number) => {
+                        const symbol = selectedIndex.includes("S&P") ? "$" : "₹";
+                        return [`${symbol}${value.toLocaleString(undefined, { minimumFractionDigits: 2 })}`, 'Index Value'];
+                      }}
                     />
                     <Area 
                       type="monotone" 
