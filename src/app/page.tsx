@@ -216,11 +216,10 @@ export default function Home() {
               <h1 className="text-3xl md:text-5xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-500 dark:from-white dark:via-zinc-200 dark:to-zinc-500">
                 Strategy Hub
               </h1>
-<p className="text-zinc-500 dark:text-zinc-400 text-sm md:text-base max-w-xl font-medium leading-relaxed">
-  Real-time analysis across Nifty benchmarks, S&P 500, and Gold BeES. 
-  Experience 20.6 years of high-fidelity market data.
-</p>
-
+              <p className="text-zinc-500 dark:text-zinc-400 text-sm md:text-base max-w-xl font-medium leading-relaxed">
+                Real-time analysis across Nifty benchmarks, S&P 500, and Gold BeES. 
+                Experience 20.6 years of high-fidelity market data.
+              </p>
             </div>
             
             <div className="relative group w-full md:w-auto">
@@ -298,10 +297,10 @@ export default function Home() {
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     <p className="text-[10px] text-zinc-400 uppercase font-black tracking-[0.2em]">Latest Index Value</p>
                 </div>
-                  <p className="text-4xl md:text-5xl font-black tabular-nums tracking-tighter mb-4">
-                    {selectedIndex.includes("S&P") ? "$" : "₹"}
-                    {stats.latest.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                  </p>
+                <p className="text-4xl md:text-5xl font-black tabular-nums tracking-tighter mb-4">
+                  {selectedIndex.includes("S&P") ? "$" : "₹"}
+                  {stats.latest.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                </p>
                 <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-100 dark:bg-zinc-800 w-fit rounded-lg">
                     <Calendar className="w-3 h-3 text-zinc-400" />
                     <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
@@ -318,10 +317,10 @@ export default function Home() {
                     <TrendingUp className="w-32 h-32 text-white" />
                 </div>
                 <p className="text-[10px] text-emerald-100/60 uppercase font-black tracking-[0.2em] mb-3">Historical Peak</p>
-                  <p className="text-4xl md:text-5xl font-black text-white tabular-nums tracking-tighter mb-4">
-                    {selectedIndex.includes("S&P") ? "$" : "₹"}
-                    {stats.high.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                  </p>
+                <p className="text-4xl md:text-5xl font-black text-white tabular-nums tracking-tighter mb-4">
+                  {selectedIndex.includes("S&P") ? "$" : "₹"}
+                  {stats.high.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                </p>
                 <p className="text-xs font-bold text-emerald-100 flex items-center gap-1.5">
                   <ArrowUpRight className="w-4 h-4" /> 
                   All-time maximum recorded
