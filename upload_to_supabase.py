@@ -20,12 +20,18 @@ def upload_to_supabase(csv_file, index_name_default=None):
     # Standardize columns for DB
     df.columns = [c.lower() for c in df.columns]
     
+    # Standardize column mappings if needed
+    rename_map = {
+        "index name": "index_name"
+    }
+    df.rename(columns=rename_map, inplace=True)
+
     # Add index_name if missing
     if 'index_name' not in df.columns:
         if index_name_default:
             df['index_name'] = index_name_default
         else:
-            df['index_name'] = "Nifty500 Momentum 50"
+            df['index_name'] = "Nifty 50"
     
     # Ensure columns match DB: date, index_name, open, high, low, close
     needed_cols = ["date", "index_name", "open", "high", "low", "close"]
@@ -39,13 +45,16 @@ def upload_to_supabase(csv_file, index_name_default=None):
     # Handle '-' values by converting to 0
     df = df.replace('-', 0)
     
+    # Ensure numeric types
+    for col in ["open", "high", "low", "close"]:
+        df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0.0)
+    
     # Convert to list of dicts
     records = df.to_dict(orient='records')
     
     print(f"Uploading {len(records)} records for {df['index_name'].iloc[0]} to Supabase...")
     
     # Supabase REST API endpoint for the table with upsert on conflict of (date, index_name)
-    # The on_conflict parameter must match the columns in the unique constraint
     url = f"{SUPABASE_URL}/rest/v1/{TABLE_NAME}?on_conflict=date,index_name"
     
     headers = {
@@ -71,19 +80,22 @@ def upload_to_supabase(csv_file, index_name_default=None):
     print(f"Upload complete for {csv_file}!")
 
 if __name__ == "__main__":
-    # Standardize files created by fetch_all_indices.py
-    # nifty500_momentum_50_data.csv
-    # nifty500_quality_50_data.csv
-    # nifty500_value_50_data.csv
-    
-    indices = [
+    indices_files = [
+        ("nifty_50_data.csv", "Nifty 50"),
+        ("nifty_next_50_data.csv", "Nifty Next 50"),
+        ("nifty_midcap_150_data.csv", "Nifty Midcap 150"),
+        ("nifty_500_data.csv", "Nifty 500"),
+        ("nifty_smallcap_250_data.csv", "Nifty Smallcap 250"),
+        ("nifty_microcap250_data.csv", "Nifty Microcap 250"),
+        ("nifty_smallcap_500_data.csv", "Nifty Smallcap 500"),
+        ("nifty_total_mkt_data.csv", "Nifty Total Market"),
         ("nifty500_momentum_50_data.csv", "Nifty500 Momentum 50"),
         ("nifty500_quality_50_data.csv", "Nifty500 Quality 50"),
         ("nifty500_value_50_data.csv", "Nifty500 Value 50"),
         ("nifty500_low_volatility_50_data.csv", "Nifty500 Low Volatility 50")
     ]
     
-    for filename, index_name in indices:
+    for filename, index_name in indices_files:
         if os.path.exists(filename):
             upload_to_supabase(filename, index_name)
         else:
