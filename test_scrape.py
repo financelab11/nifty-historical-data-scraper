@@ -2,7 +2,7 @@ from nsepython import index_history
 from datetime import datetime
 import pandas as pd
 
-symbol = "Nifty 100 Low Volatility 30"
+symbol = "NIFTY 100 LOW VOLATILITY 30"
 start_date = "01-Apr-2005"
 end_date = "28-Feb-2026"
 
