@@ -79,7 +79,22 @@ if __name__ == "__main__":
         ("nifty500_momentum_50_data.csv", "Nifty500 Momentum 50"),
         ("nifty500_quality_50_data.csv", "Nifty500 Quality 50"),
         ("nifty500_value_50_data.csv", "Nifty500 Value 50"),
-        ("nifty500_low_volatility_50_data.csv", "Nifty500 Low Volatility 50")
+        ("nifty500_low_volatility_50_data.csv", "Nifty500 Low Volatility 50"),
+        # New Indices
+        ("nifty100_low_volatility_30_data.csv", "NIFTY100 LOW VOLATILITY 30"),
+        ("nifty100_quality_30_data.csv", "NIFTY100 QUALITY 30"),
+        ("nifty100_alpha_30_data.csv", "NIFTY100 ALPHA 30"),
+        ("nifty200_quality_30_data.csv", "NIFTY200 QUALITY 30"),
+        ("nifty_midcap150_quality_50_data.csv", "NIFTY MIDCAP150 QUALITY 50"),
+        ("nifty200_momentum_30_data.csv", "NIFTY200 MOMENTUM 30"),
+        ("nifty200_alpha_30_data.csv", "NIFTY200 ALPHA 30"),
+        ("nifty_midcap150_momentum_50_data.csv", "NIFTY MIDCAP150 MOMENTUM 50"),
+        ("nifty_smallcap250_quality_50_data.csv", "NIFTY SMALLCAP250 QUALITY 50"),
+        ("nifty_smallcap250_momentum_quality_100_data.csv", "NIFTY SMALLCAP250 MOMENTUM QUALITY 100"),
+        ("nifty_midsmallcap400_momentum_quality_100_data.csv", "NIFTY MIDSMALLCAP400 MOMENTUM QUALITY 100"),
+        ("nifty500_multicap_momentum_quality_50_data.csv", "NIFTY500 MULTICAP MOMENTUM QUALITY 50"),
+        ("nifty500_multifactor_mqvlv_50_data.csv", "NIFTY500 MULTIFACTOR MQVLv 50"),
+        ("nifty_total_market_momentum_quality_50_data.csv", "Nifty Total Market Momentum Quality 50")
     ]
     
     for filename, index_name in indices_files:
