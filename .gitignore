@@ -47,4 +47,4 @@ test_*.py
 nse_test.csv
 
 # env files
-.env*
+# .env* # Removed by Orchids to allow .env files
