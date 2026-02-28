@@ -36,6 +36,7 @@ interface IndexData {
 
 const AVAILABLE_INDICES = [
   "Nifty 50",
+  "Nifty Smallcap 250",
   "Nifty500 Momentum 50",
   "Nifty500 Quality 50",
   "Nifty500 Value 50",
