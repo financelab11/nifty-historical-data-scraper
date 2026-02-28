@@ -38,13 +38,14 @@ yarn-error.log*
 next-env.d.ts
 node_modules
 .venv
-*.csv
-check_indices*.py
-fetch_*.py
-scrape_*.py
-upload_*.py
-test_*.py
-nse_test.csv
+# *.csv
+# check_indices*.py
+# fetch_*.py
+# scrape_*.py
+# upload_*.py
+# test_*.py
+# nse_test.csv
+
 
 # env files
 # .env* # Removed by Orchids to allow .env files
