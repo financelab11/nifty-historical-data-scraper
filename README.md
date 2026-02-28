@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nifty Historical Data Strategy Hub
+
+This project is a comprehensive analysis platform for the Indian equity market, providing 20.6 years of high-fidelity historical data (starting from 1 April 2005) for the entire Nifty ecosystem.
+
+## Features
+
+- **Official Data Source:** All data is scraped directly from [niftyindices.com](https://www.niftyindices.com/reports/historical-data), ensuring institutional-grade accuracy.
+- **Comprehensive Coverage:**
+  - **Market Benchmarks:** Nifty 50, Nifty Next 50, Nifty 500, Nifty Total Market.
+  - **Mid & Small Cap:** Nifty Midcap 150, Nifty Smallcap 250, Nifty Smallcap 500, Nifty Microcap 250.
+  - **Factor Indices:** Momentum 50, Quality 50, Value 50, Low Volatility 50.
+- **Deep Historical Insights:** Data spans over 20 years, capturing multiple market cycles.
+- **Real-time Analysis:** Interactive charts and CAGR calculations for performance benchmarking.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Supabase](https://supabase.com) project for data storage.
+- Python 3.10+ with `nsepython` and `pandas`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/financelab11/nifty-historical-data-scraper.git
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Install dependencies:
+   ```bash
+   bun install
+   # or npm install
+   ```
 
-## Learn More
+3. Configure environment variables in `.env.local`:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. Populate the database (optional, if you want to re-scrape):
+   ```bash
+   python fetch_all_indices.py
+   python upload_to_supabase.py
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. Start the development server:
+   ```bash
+   bun dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tech Stack
 
-## Deploy on Vercel
+- **Frontend:** Next.js, Tailwind CSS, Recharts, Framer Motion.
+- **Backend/Database:** Supabase.
+- **Data Pipeline:** Python (nsepython, pandas).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
