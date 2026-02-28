@@ -7,24 +7,39 @@ SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 TABLE_NAME = "nifty_indices"
 
 def check_counts():
-    url = f"{SUPABASE_URL}/rest/v1/{TABLE_NAME}?select=index_name,date"
+    url = f"{SUPABASE_URL}/rest/v1/{TABLE_NAME}?select=index_name"
     headers = {
         "apikey": SUPABASE_KEY,
         "Authorization": f"Bearer {SUPABASE_KEY}"
     }
     
-    resp = requests.get(url, headers=headers)
-    if resp.status_code == 200:
-        data = resp.json()
-        df = pd.DataFrame(data)
-        if not df.empty:
-            summary = df.groupby('index_name').agg({'date': ['count', 'min', 'max']})
-            print(summary)
+    all_data = []
+    offset = 0
+    limit = 2000 # Supabase can handle larger chunks if configured, but let's stick to 1000 or use range
+    
+    while True:
+        # Use Range header
+        headers["Range"] = f"{offset}-{offset+limit-1}"
+        resp = requests.get(url, headers=headers)
+        if resp.status_code in [200, 206]:
+            data = resp.json()
+            if not data:
+                break
+            all_data.extend(data)
+            offset += limit
+            if len(data) < limit:
+                break
         else:
-            print("No data found.")
+            print(f"Error: {resp.status_code}")
+            print(resp.text)
+            break
+            
+    if all_data:
+        df = pd.DataFrame(all_data)
+        summary = df.groupby('index_name').size()
+        print(summary)
     else:
-        print(f"Error: {resp.status_code}")
-        print(resp.text)
+        print("No data found.")
 
 if __name__ == "__main__":
     check_counts()
