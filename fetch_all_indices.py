@@ -6,9 +6,22 @@ import os
 
 # ── Configuration ─────────────────────────────────────────────────────────────
 
-SYMBOLS = ["Nifty500 Momentum 50", "Nifty500 Quality 50", "Nifty500 Value 50", "Nifty500 Low Volatility 50"]
+SYMBOLS = [
+    "NIFTY 50",
+    "NIFTY NEXT 50",
+    "NIFTY MIDCAP 150",
+    "NIFTY 500",
+    "NIFTY SMALLCAP 250",
+    "NIFTY MICROCAP 250",
+    "NIFTY SMALLCAP 500",
+    "NIFTY TOTAL MARKET",
+    "Nifty500 Momentum 50",
+    "Nifty500 Quality 50",
+    "Nifty500 Value 50",
+    "Nifty500 Low Volatility 50"
+]
 START_DATE = "01-Apr-2005"
-END_DATE   = "27-Feb-2026"
+END_DATE   = "28-Feb-2026"
 
 def fetch_index_data(symbol):
     print(f"Fetching historical data for {symbol} from {START_DATE} to {END_DATE}...")
@@ -22,6 +35,7 @@ def fetch_index_data(symbol):
             return None
 
         # Standardise column names
+        # Possible columns: HistoricalDate, OPEN, HIGH, LOW, CLOSE, Index Name
         rename_map = {
             "HistoricalDate": "date",
             "OPEN": "open",
@@ -33,7 +47,7 @@ def fetch_index_data(symbol):
         }
         df.rename(columns=rename_map, inplace=True)
         
-        # Ensure index_name is correct
+        # Ensure index_name is correct (standardize)
         df['index_name'] = symbol
         
         # Parse Date
@@ -56,8 +70,15 @@ def fetch_index_data(symbol):
         
         # Reorder columns
         needed_cols = ["date", "index_name", "open", "high", "low", "close"]
-        existing_cols = [c for c in needed_cols if c in df.columns]
+        existing_cols = [c for c in list(df.columns) if c in needed_cols]
         df = df[existing_cols]
+        
+        # Ensure all columns exist
+        for col in needed_cols:
+            if col not in df.columns:
+                df[col] = 0.0
+        
+        df = df[needed_cols]
         
         filename = f"{symbol.lower().replace(' ', '_')}_data.csv"
         df.to_csv(filename, index=False)
@@ -71,7 +92,7 @@ def fetch_index_data(symbol):
 def main():
     for symbol in SYMBOLS:
         fetch_index_data(symbol)
-        time.sleep(5) # Be polite between symbols
+        time.sleep(2) # Reduced sleep but kept for politeness
 
 if __name__ == "__main__":
     main()
