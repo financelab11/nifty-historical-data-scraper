@@ -317,9 +317,10 @@ export default function Home() {
                     <TrendingUp className="w-32 h-32 text-white" />
                 </div>
                 <p className="text-[10px] text-emerald-100/60 uppercase font-black tracking-[0.2em] mb-3">Historical Peak</p>
-                <p className="text-4xl md:text-5xl font-black text-white tabular-nums tracking-tighter mb-4">
-                  {stats.high.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                </p>
+                  <p className="text-4xl md:text-5xl font-black text-white tabular-nums tracking-tighter mb-4">
+                    {selectedIndex.includes("S&P") ? "$" : "₹"}
+                    {stats.high.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  </p>
                 <p className="text-xs font-bold text-emerald-100 flex items-center gap-1.5">
                   <ArrowUpRight className="w-4 h-4" /> 
                   All-time maximum recorded
