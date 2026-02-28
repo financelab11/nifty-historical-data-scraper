@@ -36,7 +36,13 @@ interface IndexData {
 
 const AVAILABLE_INDICES = [
   "Nifty 50",
+  "Nifty Next 50",
+  "Nifty Midcap 150",
+  "Nifty 500",
   "Nifty Smallcap 250",
+  "Nifty Microcap 250",
+  "Nifty Smallcap 500",
+  "Nifty Total Market",
   "Nifty500 Momentum 50",
   "Nifty500 Quality 50",
   "Nifty500 Value 50",
@@ -209,9 +215,10 @@ export default function Home() {
                 Strategy Hub
               </h1>
                 <p className="text-zinc-500 dark:text-zinc-400 text-sm md:text-base max-w-xl font-medium leading-relaxed">
-                  Seamless real-time analysis of Nifty 50, Smallcap 250, and factor indices. 
+                  Real-time analysis across the entire Nifty ecosystem, from Nifty 50 to Total Market. 
                   Experience 20+ years of institutional-grade data.
                 </p>
+
             </div>
             
             <div className="relative group w-full md:w-auto">
