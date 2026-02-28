@@ -45,4 +45,3 @@ scrape_*.py
 upload_*.py
 test_*.py
 nse_test.csv
-EOF
