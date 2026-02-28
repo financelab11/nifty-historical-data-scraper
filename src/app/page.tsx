@@ -216,10 +216,10 @@ export default function Home() {
               <h1 className="text-3xl md:text-5xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-500 dark:from-white dark:via-zinc-200 dark:to-zinc-500">
                 Strategy Hub
               </h1>
-                  <p className="text-zinc-500 dark:text-zinc-400 text-sm md:text-base max-w-xl font-medium leading-relaxed">
-                    Real-time analysis across Nifty benchmarks and global indices like S&P 500. 
-                    Experience 20.6 years of high-fidelity market data.
-                  </p>
+<p className="text-zinc-500 dark:text-zinc-400 text-sm md:text-base max-w-xl font-medium leading-relaxed">
+  Real-time analysis across Nifty benchmarks, S&P 500, and Gold BeES. 
+  Experience 20.6 years of high-fidelity market data.
+</p>
 
             </div>
             
