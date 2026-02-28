@@ -207,10 +207,10 @@ export default function Home() {
               <h1 className="text-3xl md:text-5xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-500 dark:from-white dark:via-zinc-200 dark:to-zinc-500">
                 Strategy Hub
               </h1>
-              <p className="text-zinc-500 dark:text-zinc-400 text-sm md:text-base max-w-xl font-medium leading-relaxed">
-                Seamless real-time analysis of Nifty500 factor indices. 
-                Experience 20+ years of institutional-grade data.
-              </p>
+                <p className="text-zinc-500 dark:text-zinc-400 text-sm md:text-base max-w-xl font-medium leading-relaxed">
+                  Seamless real-time analysis of Nifty 50 and factor indices. 
+                  Experience 20+ years of institutional-grade data.
+                </p>
             </div>
             
             <div className="relative group w-full md:w-auto">
