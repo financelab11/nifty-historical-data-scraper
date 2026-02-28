@@ -209,7 +209,7 @@ export default function Home() {
                 Strategy Hub
               </h1>
                 <p className="text-zinc-500 dark:text-zinc-400 text-sm md:text-base max-w-xl font-medium leading-relaxed">
-                  Seamless real-time analysis of Nifty 50 and factor indices. 
+                  Seamless real-time analysis of Nifty 50, Smallcap 250, and factor indices. 
                   Experience 20+ years of institutional-grade data.
                 </p>
             </div>
