@@ -9,7 +9,7 @@ SUPABASE_URL = "https://bnlqmjjeqrbfmpxkpdce.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJubHFtamplcXJiZm1weGtwZGNlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjIxNTI1NywiZXhwIjoyMDg3NzkxMjU3fQ.KtkqFcnoFU7Tf0t8FH8f7F8AlMA7Bf_yVFPVdXLzz0s"
 TABLE_NAME = "nifty_indices"
 
-def upload_to_supabase(csv_file, index_name_default=None):
+def upload_to_supabase(csv_file, index_name_override):
     if not os.path.exists(csv_file):
         print(f"File {csv_file} not found. Skipping.")
         return
@@ -17,21 +17,8 @@ def upload_to_supabase(csv_file, index_name_default=None):
     print(f"Reading {csv_file}...")
     df = pd.read_csv(csv_file)
     
-    # Standardize columns for DB
-    df.columns = [c.lower() for c in df.columns]
-    
-    # Standardize column mappings if needed
-    rename_map = {
-        "index name": "index_name"
-    }
-    df.rename(columns=rename_map, inplace=True)
-
-    # Add index_name if missing
-    if 'index_name' not in df.columns:
-        if index_name_default:
-            df['index_name'] = index_name_default
-        else:
-            df['index_name'] = "Nifty 50"
+    # Force index_name
+    df['index_name'] = index_name_override
     
     # Ensure columns match DB: date, index_name, open, high, low, close
     needed_cols = ["date", "index_name", "open", "high", "low", "close"]
@@ -52,7 +39,7 @@ def upload_to_supabase(csv_file, index_name_default=None):
     # Convert to list of dicts
     records = df.to_dict(orient='records')
     
-    print(f"Uploading {len(records)} records for {df['index_name'].iloc[0]} to Supabase...")
+    print(f"Uploading {len(records)} records for {index_name_override} to Supabase...")
     
     # Supabase REST API endpoint for the table with upsert on conflict of (date, index_name)
     url = f"{SUPABASE_URL}/rest/v1/{TABLE_NAME}?on_conflict=date,index_name"
@@ -96,7 +83,4 @@ if __name__ == "__main__":
     ]
     
     for filename, index_name in indices_files:
-        if os.path.exists(filename):
-            upload_to_supabase(filename, index_name)
-        else:
-            print(f"File {filename} not found.")
+        upload_to_supabase(filename, index_name)
