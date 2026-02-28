@@ -6,22 +6,24 @@ import os
 
 # ── Configuration ─────────────────────────────────────────────────────────────
 
+# Symbols based on common naming and search results
 SYMBOLS = [
-    "Nifty 100 Low Volatility 30",
-    "Nifty 100 Quality 30",
-    "Nifty 100 Alpha 30",
-    "Nifty 200 Quality 30",
-    "Nifty Midcap 150 Quality 50",
-    "Nifty 200 Momentum 30",
-    "Nifty 200 Alpha 30",
-    "Nifty Midcap 150 Momentum 50",
-    "Nifty Smallcap 250 Quality 50",
-    "Nifty Smallcap 250 Momentum Quality 100",
-    "Nifty MidSmallcap 400 Momentum Quality 100",
-    "Nifty 500 Multicap Momentum Quality 50",
-    "Nifty 500 Multifactor MQVLv 50",
+    "NIFTY100 LOW VOLATILITY 30",
+    "NIFTY100 QUALITY 30",
+    "NIFTY100 ALPHA 30",
+    "NIFTY200 QUALITY 30",
+    "NIFTY MIDCAP150 QUALITY 50",
+    "NIFTY200 MOMENTUM 30",
+    "NIFTY200 ALPHA 30",
+    "NIFTY MIDCAP150 MOMENTUM 50",
+    "NIFTY SMALLCAP250 QUALITY 50",
+    "NIFTY SMALLCAP250 MOMENTUM QUALITY 100",
+    "NIFTY MIDSMALLCAP400 MOMENTUM QUALITY 100",
+    "NIFTY500 MULTICAP MOMENTUM QUALITY 50",
+    "NIFTY500 MULTIFACTOR MQVLv 50",
     "Nifty Total Market Momentum Quality 50"
 ]
+
 START_DATE = "01-Apr-2005"
 END_DATE   = "28-Feb-2026"
 
@@ -29,8 +31,13 @@ def fetch_index_data(symbol):
     print(f"Fetching historical data for {symbol} from {START_DATE} to {END_DATE}...")
     
     try:
-        # nsepython handles larger date ranges by splitting internally.
         df = index_history(symbol, START_DATE, END_DATE)
+        
+        # If it fails, try a Title Case version with spaces
+        if df is None or df.empty:
+            alt_symbol = symbol.replace('NIFTY', 'Nifty ').title().replace('Mqvl v', 'MQVLv')
+            print(f"Failed. Trying alternate: {alt_symbol}")
+            df = index_history(alt_symbol, START_DATE, END_DATE)
         
         if df is None or df.empty:
             print(f"Error: No data fetched for {symbol}.")
