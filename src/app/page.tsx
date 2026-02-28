@@ -297,9 +297,10 @@ export default function Home() {
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     <p className="text-[10px] text-zinc-400 uppercase font-black tracking-[0.2em]">Latest Index Value</p>
                 </div>
-                <p className="text-4xl md:text-5xl font-black tabular-nums tracking-tighter mb-4">
-                  {stats.latest.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                </p>
+                  <p className="text-4xl md:text-5xl font-black tabular-nums tracking-tighter mb-4">
+                    {selectedIndex.includes("S&P") ? "$" : "₹"}
+                    {stats.latest.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  </p>
                 <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-100 dark:bg-zinc-800 w-fit rounded-lg">
                     <Calendar className="w-3 h-3 text-zinc-400" />
                     <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
